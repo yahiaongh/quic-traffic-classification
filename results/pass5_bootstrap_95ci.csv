@@ -1,0 +1,11 @@
+model,metric,point_estimate,ci95_low,ci95_high,bootstrap_unit,n_blocks,replicates
+LightGBM,accuracy,0.8789060562656074,0.8764194341343743,0.8814584288733133,May calendar day (paired block bootstrap),31,1000
+LightGBM,macro_precision,0.8144017002800693,0.8082388249563595,0.8218945173700799,May calendar day (paired block bootstrap),31,1000
+LightGBM,macro_recall,0.7274527535001011,0.7222044254314302,0.7335295608715963,May calendar day (paired block bootstrap),31,1000
+LightGBM,macro_f1,0.7533901744438665,0.7471243852795992,0.7605995428147936,May calendar day (paired block bootstrap),31,1000
+LightGBM,weighted_f1,0.8773937975152903,0.874909242167802,0.8799654317942313,May calendar day (paired block bootstrap),31,1000
+XGBoost OvR,accuracy,0.8426848648678436,0.83988044380138,0.8455338280498932,May calendar day (paired block bootstrap),31,1000
+XGBoost OvR,macro_precision,0.7716202296459072,0.7665047007374736,0.7773795282293255,May calendar day (paired block bootstrap),31,1000
+XGBoost OvR,macro_recall,0.6642489722190947,0.6591319519237522,0.6695521556127338,May calendar day (paired block bootstrap),31,1000
+XGBoost OvR,macro_f1,0.6965948073387536,0.691147786083132,0.7019683472024264,May calendar day (paired block bootstrap),31,1000
+XGBoost OvR,weighted_f1,0.8399677017926365,0.8370814151833816,0.8428864454180045,May calendar day (paired block bootstrap),31,1000

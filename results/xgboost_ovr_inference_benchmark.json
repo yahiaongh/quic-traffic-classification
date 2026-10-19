@@ -1,0 +1,10 @@
+{
+  "model": "XGBoost OvR",
+  "batch_size": 512,
+  "warmup_batches": 5,
+  "measured_batches": 50,
+  "latency_ms_per_batch": 82.11052277998533,
+  "throughput_flows_per_sec": 6235.497993014867,
+  "scope": "tree inference plus April-trained multinomial logistic stacker; feature preprocessing and HDF5 I/O excluded",
+  "comparable_only_with_other_Pass5_tree_rows": true
+}

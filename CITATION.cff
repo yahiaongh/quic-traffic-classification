@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the repository and the associated research paper when available."
+title: "QUIC Traffic Classification"
+authors:
+  - family-names: Benyahia
+    given-names: "Yahia Abdeldjalil"
+version: 1.0.0
+date-released: 2026-10-19
+repository-code: "https://github.com/yahiaa1/quic-traffic-classification"
+license: MIT
+type: software
+abstract: >-
+  Research code and experiment notebooks for temporal QUIC application traffic
+  classification, including neural reference experiments and LightGBM and
+  XGBoost one-vs-rest baselines.
+keywords:
+  - QUIC
+  - encrypted traffic classification
+  - temporal evaluation
+  - machine learning
+  - reproducible research

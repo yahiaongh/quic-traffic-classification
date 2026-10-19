@@ -1,0 +1,10 @@
+{
+  "model": "LightGBM",
+  "batch_size": 512,
+  "warmup_batches": 5,
+  "measured_batches": 50,
+  "latency_ms_per_batch": 408.0729301604151,
+  "throughput_flows_per_sec": 1254.6776866545172,
+  "scope": "tree inference plus April-trained multinomial logistic stacker; feature preprocessing and HDF5 I/O excluded",
+  "comparable_only_with_other_Pass5_tree_rows": true
+}

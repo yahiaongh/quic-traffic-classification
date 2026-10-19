@@ -1,0 +1,13 @@
+{
+  "accuracy": 0.8426848648678436,
+  "macro_precision": 0.7716202296459072,
+  "macro_recall": 0.6642489722190947,
+  "macro_f1": 0.6965948073387536,
+  "weighted_f1": 0.8399677017926365,
+  "samples": 2359061,
+  "ece_10": 0.014052617301265488,
+  "model": "XGBoost OvR",
+  "split": "May 2025 full known-class population",
+  "calibrated_with_april_stacker": true,
+  "evaluation_seconds": 27.922657251358032
+}

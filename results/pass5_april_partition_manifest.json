@@ -1,0 +1,9 @@
+{
+  "seed": 20261107,
+  "method": "one deterministic permutation of the April uniform reservoir; non-overlapping index ranges",
+  "hpo_validation_rows": 30000,
+  "early_stopping_rows": 70000,
+  "stacker_fit_rows": 400000,
+  "calibration_audit_rows": 100000,
+  "disjoint": true
+}

@@ -1,0 +1,17 @@
+# Notebook/runtime outputs and local data
+.ipynb_checkpoints/
+__pycache__/
+*.py[cod]
+.env
+.venv/
+data/
+checkpoints/
+models/
+*.h5
+*.keras
+*.joblib
+*.npy
+*.npz
+*.hdf5
+*.tfrecord
+*.tfrecords

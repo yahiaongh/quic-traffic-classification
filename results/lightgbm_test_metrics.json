@@ -1,0 +1,13 @@
+{
+  "accuracy": 0.8789060562656074,
+  "macro_precision": 0.8144017002800693,
+  "macro_recall": 0.7274527535001011,
+  "macro_f1": 0.7533901744438665,
+  "weighted_f1": 0.8773937975152903,
+  "samples": 2359061,
+  "ece_10": 0.0154177001638656,
+  "model": "LightGBM",
+  "split": "May 2025 full known-class population",
+  "calibrated_with_april_stacker": true,
+  "evaluation_seconds": 1484.2865369319916
+}

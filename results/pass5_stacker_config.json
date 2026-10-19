@@ -1,0 +1,45 @@
+{
+  "config": {
+    "method": "multinomial LogisticRegression on base-model 50-class probability vectors",
+    "same_for_both_tree_families": true,
+    "training_partition": "April 2025, disjoint stacker_fit partition",
+    "training_rows": 400000,
+    "audit_partition": "April 2025, disjoint calibration_audit partition",
+    "audit_rows": 100000,
+    "C": 1.0,
+    "solver": "lbfgs",
+    "max_iter": 250,
+    "class_weight": null,
+    "selection_using_audit": false
+  },
+  "fit_seconds": {
+    "LightGBM": 302.8936610221863,
+    "XGBoost OvR": 74.22209668159485
+  },
+  "audit_results": [
+    {
+      "model": "LightGBM",
+      "audit_rows": 100000,
+      "raw_macro_f1": 0.7670597023055572,
+      "stacked_macro_f1": 0.7594402991288577,
+      "raw_ece_10": 0.040151322660893204,
+      "stacked_ece_10": 0.016096589834690093,
+      "raw_accuracy": 0.88332,
+      "stacked_accuracy": 0.88606,
+      "stacker_fit_seconds": 302.8936610221863,
+      "audit_used_for_selection": false
+    },
+    {
+      "model": "XGBoost OvR",
+      "audit_rows": 100000,
+      "raw_macro_f1": 0.7030603284217298,
+      "stacked_macro_f1": 0.7006573179843818,
+      "raw_ece_10": 0.10056128087043761,
+      "stacked_ece_10": 0.017265391064435243,
+      "raw_accuracy": 0.83974,
+      "stacked_accuracy": 0.84912,
+      "stacker_fit_seconds": 74.22209668159485,
+      "audit_used_for_selection": false
+    }
+  ]
+}

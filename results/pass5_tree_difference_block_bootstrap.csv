@@ -1,0 +1,6 @@
+comparison,metric,point_difference,ci95_low,ci95_high,method,bootstrap_unit,n_blocks,replicates
+LightGBM - XGBoost OvR,accuracy,0.03622119139776381,0.03562378736816757,0.03673976981737763,paired daily-block bootstrap; same sampled days for both models,May calendar day,31,1000
+LightGBM - XGBoost OvR,macro_precision,0.042781470634162155,0.036923476632284305,0.04895036493400253,paired daily-block bootstrap; same sampled days for both models,May calendar day,31,1000
+LightGBM - XGBoost OvR,macro_recall,0.06320378128100634,0.05975835303249133,0.06671075376026282,paired daily-block bootstrap; same sampled days for both models,May calendar day,31,1000
+LightGBM - XGBoost OvR,macro_f1,0.056795367105112904,0.05312756207957239,0.06073738956274936,paired daily-block bootstrap; same sampled days for both models,May calendar day,31,1000
+LightGBM - XGBoost OvR,weighted_f1,0.037426095722653874,0.03681292705090414,0.03798003430782609,paired daily-block bootstrap; same sampled days for both models,May calendar day,31,1000

@@ -1,0 +1,132 @@
+{
+  "config": {
+    "objective": "multiclass",
+    "num_class": 50,
+    "n_estimators": 260,
+    "learning_rate": 0.05,
+    "num_leaves": 63,
+    "min_child_samples": 100,
+    "max_bin": 31,
+    "reg_alpha": 0.0,
+    "reg_lambda": 1.0,
+    "subsample": 0.9,
+    "colsample_bytree": 0.8,
+    "max_depth": -1,
+    "subsample_freq": 1,
+    "boosting_type": "gbdt",
+    "random_state": 20261003,
+    "n_jobs": 4,
+    "verbosity": -1,
+    "device_type": "gpu",
+    "gpu_device_id": 0,
+    "gpu_use_dp": true
+  },
+  "hpo_budget_seconds_per_family": 900,
+  "hpo_trials_completed": 4,
+  "hpo_best_macro_f1": 0.46077645582837384,
+  "hpo_best_iteration_on_pilot": 78,
+  "iteration_cap": 260,
+  "hpo_round_cap_hit": false,
+  "final_iteration_cap": 260,
+  "early_stopping_rounds": 35,
+  "best_iteration": 260,
+  "training_seconds": 25361.656940460205,
+  "validation_seconds": 43.30450773239136,
+  "train_rows": 27727267,
+  "validation_rows": 70000,
+  "feature_count": 101,
+  "class_weighting": "inverse training frequency, normalized to mean 1, clipped [0.25,5.0]",
+  "hpo_summary": {
+    "completed_trials": 4,
+    "elapsed_seconds": 385.7965166568756,
+    "best_macro_f1": 0.46077645582837384,
+    "best_iteration_on_pilot": 78,
+    "selected_params": {
+      "learning_rate": 0.05,
+      "num_leaves": 63,
+      "min_child_samples": 100,
+      "max_bin": 31,
+      "reg_alpha": 0.0,
+      "reg_lambda": 1.0,
+      "subsample": 0.9,
+      "colsample_bytree": 0.8
+    },
+    "final_round_cap": 260,
+    "trial_results": [
+      {
+        "family": "LightGBM",
+        "trial": 1,
+        "macro_f1": 0.4601948651189094,
+        "best_iteration": 240,
+        "round_cap_hit": true,
+        "seconds": 121.40384721755981,
+        "params": {
+          "learning_rate": 0.03,
+          "num_leaves": 31,
+          "min_child_samples": 20,
+          "max_bin": 63,
+          "reg_alpha": 0.0,
+          "reg_lambda": 1.0,
+          "subsample": 0.8,
+          "colsample_bytree": 0.8
+        }
+      },
+      {
+        "family": "LightGBM",
+        "trial": 2,
+        "macro_f1": 0.45274178743608856,
+        "best_iteration": 117,
+        "round_cap_hit": false,
+        "seconds": 105.18914246559143,
+        "params": {
+          "learning_rate": 0.05,
+          "num_leaves": 63,
+          "min_child_samples": 50,
+          "max_bin": 63,
+          "reg_alpha": 0.0,
+          "reg_lambda": 5.0,
+          "subsample": 0.8,
+          "colsample_bytree": 0.9
+        }
+      },
+      {
+        "family": "LightGBM",
+        "trial": 3,
+        "macro_f1": 0.46077645582837384,
+        "best_iteration": 78,
+        "round_cap_hit": false,
+        "seconds": 73.48649954795837,
+        "params": {
+          "learning_rate": 0.05,
+          "num_leaves": 63,
+          "min_child_samples": 100,
+          "max_bin": 31,
+          "reg_alpha": 0.0,
+          "reg_lambda": 1.0,
+          "subsample": 0.9,
+          "colsample_bytree": 0.8
+        }
+      },
+      {
+        "family": "LightGBM",
+        "trial": 4,
+        "macro_f1": 0.45754851818921055,
+        "best_iteration": 138,
+        "round_cap_hit": false,
+        "seconds": 85.09389686584473,
+        "params": {
+          "learning_rate": 0.08,
+          "num_leaves": 31,
+          "min_child_samples": 250,
+          "max_bin": 63,
+          "reg_alpha": 0.1,
+          "reg_lambda": 10.0,
+          "subsample": 0.9,
+          "colsample_bytree": 0.8
+        }
+      }
+    ]
+  },
+  "round_cap_hit": true,
+  "cap_warning": true
+}

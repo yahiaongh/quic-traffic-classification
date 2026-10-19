@@ -1,0 +1,386 @@
+{
+  "notebook_version": "Pass 5 v10",
+  "dry_run": false,
+  "dataset": "CESNET-QUICEXT-25",
+  "dataset_size": "M",
+  "n_classes": 50,
+  "feature_dimension": 101,
+  "train_dates": [
+    "20240601",
+    "20250331"
+  ],
+  "train_rows": 27727267,
+  "april_partition": {
+    "seed": 20261107,
+    "method": "one deterministic permutation of the April uniform reservoir; non-overlapping index ranges",
+    "hpo_validation_rows": 30000,
+    "early_stopping_rows": 70000,
+    "stacker_fit_rows": 400000,
+    "calibration_audit_rows": 100000,
+    "disjoint": true
+  },
+  "test": {
+    "dates": [
+      "20250501",
+      "20250531"
+    ],
+    "actual_flows": 2359061,
+    "day_blocks": 31
+  },
+  "hpo": {
+    "target_wallclock_seconds_per_family": 900,
+    "pilot_rows": 100000,
+    "pilot_policy": "2,000 per class; inverse sampling correction times the common train-derived per-flow class weight; normalized to mean one",
+    "hpo_validation_rows": 30000,
+    "selection_metric": "macro-F1 on the same April HPO validation partition",
+    "LightGBM": {
+      "completed_trials": 4,
+      "elapsed_seconds": 385.7965166568756,
+      "best_macro_f1": 0.46077645582837384,
+      "best_iteration_on_pilot": 78,
+      "selected_params": {
+        "learning_rate": 0.05,
+        "num_leaves": 63,
+        "min_child_samples": 100,
+        "max_bin": 31,
+        "reg_alpha": 0.0,
+        "reg_lambda": 1.0,
+        "subsample": 0.9,
+        "colsample_bytree": 0.8
+      },
+      "final_round_cap": 260,
+      "trial_results": [
+        {
+          "family": "LightGBM",
+          "trial": 1,
+          "macro_f1": 0.4601948651189094,
+          "best_iteration": 240,
+          "round_cap_hit": true,
+          "seconds": 121.40384721755981,
+          "params": {
+            "learning_rate": 0.03,
+            "num_leaves": 31,
+            "min_child_samples": 20,
+            "max_bin": 63,
+            "reg_alpha": 0.0,
+            "reg_lambda": 1.0,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8
+          }
+        },
+        {
+          "family": "LightGBM",
+          "trial": 2,
+          "macro_f1": 0.45274178743608856,
+          "best_iteration": 117,
+          "round_cap_hit": false,
+          "seconds": 105.18914246559143,
+          "params": {
+            "learning_rate": 0.05,
+            "num_leaves": 63,
+            "min_child_samples": 50,
+            "max_bin": 63,
+            "reg_alpha": 0.0,
+            "reg_lambda": 5.0,
+            "subsample": 0.8,
+            "colsample_bytree": 0.9
+          }
+        },
+        {
+          "family": "LightGBM",
+          "trial": 3,
+          "macro_f1": 0.46077645582837384,
+          "best_iteration": 78,
+          "round_cap_hit": false,
+          "seconds": 73.48649954795837,
+          "params": {
+            "learning_rate": 0.05,
+            "num_leaves": 63,
+            "min_child_samples": 100,
+            "max_bin": 31,
+            "reg_alpha": 0.0,
+            "reg_lambda": 1.0,
+            "subsample": 0.9,
+            "colsample_bytree": 0.8
+          }
+        },
+        {
+          "family": "LightGBM",
+          "trial": 4,
+          "macro_f1": 0.45754851818921055,
+          "best_iteration": 138,
+          "round_cap_hit": false,
+          "seconds": 85.09389686584473,
+          "params": {
+            "learning_rate": 0.08,
+            "num_leaves": 31,
+            "min_child_samples": 250,
+            "max_bin": 63,
+            "reg_alpha": 0.1,
+            "reg_lambda": 10.0,
+            "subsample": 0.9,
+            "colsample_bytree": 0.8
+          }
+        }
+      ]
+    },
+    "XGBoost_OvR": {
+      "completed_trials": 6,
+      "elapsed_seconds": 291.14456391334534,
+      "best_macro_f1": 0.47167321986250405,
+      "selected_median_best_rounds": 132,
+      "selected_q75_best_rounds": 139.0,
+      "selected_params": {
+        "learning_rate": 0.1,
+        "max_depth": 5,
+        "min_child_weight": 10,
+        "max_bin": 64,
+        "reg_alpha": 0.1,
+        "reg_lambda": 1.0,
+        "subsample": 0.9,
+        "colsample_bytree": 0.8
+      },
+      "final_round_cap_per_binary_model": 209,
+      "trial_results": [
+        {
+          "family": "XGBoost OvR",
+          "trial": 1,
+          "macro_f1": 0.40754700019246765,
+          "median_best_rounds": 140,
+          "q75_best_rounds": 140.0,
+          "cap_hit_fraction": 0.58,
+          "seconds": 46.447577476501465,
+          "params": {
+            "learning_rate": 0.05,
+            "max_depth": 4,
+            "min_child_weight": 1,
+            "max_bin": 32,
+            "reg_alpha": 0.0,
+            "reg_lambda": 5.0,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8
+          }
+        },
+        {
+          "family": "XGBoost OvR",
+          "trial": 2,
+          "macro_f1": 0.45124343330555705,
+          "median_best_rounds": 138,
+          "q75_best_rounds": 140.0,
+          "cap_hit_fraction": 0.42,
+          "seconds": 50.11736512184143,
+          "params": {
+            "learning_rate": 0.08,
+            "max_depth": 5,
+            "min_child_weight": 1,
+            "max_bin": 64,
+            "reg_alpha": 0.0,
+            "reg_lambda": 10.0,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8
+          }
+        },
+        {
+          "family": "XGBoost OvR",
+          "trial": 3,
+          "macro_f1": 0.47167321986250405,
+          "median_best_rounds": 132,
+          "q75_best_rounds": 139.0,
+          "cap_hit_fraction": 0.22,
+          "seconds": 47.82517743110657,
+          "params": {
+            "learning_rate": 0.1,
+            "max_depth": 5,
+            "min_child_weight": 10,
+            "max_bin": 64,
+            "reg_alpha": 0.1,
+            "reg_lambda": 1.0,
+            "subsample": 0.9,
+            "colsample_bytree": 0.8
+          }
+        },
+        {
+          "family": "XGBoost OvR",
+          "trial": 4,
+          "macro_f1": 0.46092263025529534,
+          "median_best_rounds": 118,
+          "q75_best_rounds": 140.0,
+          "cap_hit_fraction": 0.28,
+          "seconds": 49.06289029121399,
+          "params": {
+            "learning_rate": 0.15,
+            "max_depth": 5,
+            "min_child_weight": 1,
+            "max_bin": 64,
+            "reg_alpha": 0.0,
+            "reg_lambda": 20.0,
+            "subsample": 0.9,
+            "colsample_bytree": 0.7
+          }
+        },
+        {
+          "family": "XGBoost OvR",
+          "trial": 5,
+          "macro_f1": 0.444668955655671,
+          "median_best_rounds": 137,
+          "q75_best_rounds": 139.75,
+          "cap_hit_fraction": 0.26,
+          "seconds": 49.06974983215332,
+          "params": {
+            "learning_rate": 0.08,
+            "max_depth": 6,
+            "min_child_weight": 5,
+            "max_bin": 32,
+            "reg_alpha": 0.0,
+            "reg_lambda": 5.0,
+            "subsample": 0.8,
+            "colsample_bytree": 0.9
+          }
+        },
+        {
+          "family": "XGBoost OvR",
+          "trial": 6,
+          "macro_f1": 0.45409050361702014,
+          "median_best_rounds": 139,
+          "q75_best_rounds": 140.0,
+          "cap_hit_fraction": 0.5,
+          "seconds": 47.808573722839355,
+          "params": {
+            "learning_rate": 0.1,
+            "max_depth": 4,
+            "min_child_weight": 5,
+            "max_bin": 64,
+            "reg_alpha": 0.1,
+            "reg_lambda": 10.0,
+            "subsample": 0.8,
+            "colsample_bytree": 0.9
+          }
+        }
+      ]
+    }
+  },
+  "final_models": {
+    "LightGBM": {
+      "config": {
+        "objective": "multiclass",
+        "num_class": 50,
+        "n_estimators": 260,
+        "learning_rate": 0.05,
+        "num_leaves": 63,
+        "min_child_samples": 100,
+        "max_bin": 31,
+        "reg_alpha": 0.0,
+        "reg_lambda": 1.0,
+        "subsample": 0.9,
+        "colsample_bytree": 0.8,
+        "max_depth": -1,
+        "subsample_freq": 1,
+        "boosting_type": "gbdt",
+        "random_state": 20261003,
+        "n_jobs": 4,
+        "verbosity": -1,
+        "device_type": "gpu",
+        "gpu_device_id": 0,
+        "gpu_use_dp": true
+      },
+      "best_iteration": 260,
+      "round_cap_hit": true,
+      "fit_seconds": 25361.656940460205
+    },
+    "XGBoost_OvR": {
+      "config": {
+        "strategy": "one-vs-rest",
+        "objective": "binary:logistic per class",
+        "n_models": 50,
+        "n_estimators_per_class": 209,
+        "learning_rate": 0.1,
+        "max_depth": 5,
+        "min_child_weight": 10,
+        "max_bin": 64,
+        "reg_alpha": 0.1,
+        "reg_lambda": 1.0,
+        "subsample": 0.9,
+        "colsample_bytree": 0.8,
+        "tree_method": "hist",
+        "device": "cuda",
+        "eval_metric": "logloss",
+        "random_state": 20261003,
+        "n_jobs": 4,
+        "verbosity": 0,
+        "probability_coupling": "row-normalize independent per-class sigmoid probabilities",
+        "hpo_family_budget_seconds": 900,
+        "hpo_trials_completed": 6,
+        "hpo_best_macro_f1": 0.47167321986250405
+      },
+      "best_iteration_median": 208,
+      "round_cap_hit_fraction": 0.86,
+      "fit_seconds": 12091.721682548523
+    }
+  },
+  "calibration": {
+    "method": "multinomial LogisticRegression on base-model 50-class probability vectors",
+    "same_for_both_tree_families": true,
+    "training_partition": "April 2025, disjoint stacker_fit partition",
+    "training_rows": 400000,
+    "audit_partition": "April 2025, disjoint calibration_audit partition",
+    "audit_rows": 100000,
+    "C": 1.0,
+    "solver": "lbfgs",
+    "max_iter": 250,
+    "class_weight": null,
+    "selection_using_audit": false
+  },
+  "test_metrics": {
+    "LightGBM": {
+      "accuracy": 0.8789060562656074,
+      "macro_precision": 0.8144017002800693,
+      "macro_recall": 0.7274527535001011,
+      "macro_f1": 0.7533901744438665,
+      "weighted_f1": 0.8773937975152903,
+      "samples": 2359061,
+      "ece_10": 0.0154177001638656,
+      "model": "LightGBM",
+      "split": "May 2025 full known-class population",
+      "calibrated_with_april_stacker": true,
+      "evaluation_seconds": 1484.2865369319916
+    },
+    "XGBoost_OvR": {
+      "accuracy": 0.8426848648678436,
+      "macro_precision": 0.7716202296459072,
+      "macro_recall": 0.6642489722190947,
+      "macro_f1": 0.6965948073387536,
+      "weighted_f1": 0.8399677017926365,
+      "samples": 2359061,
+      "ece_10": 0.014052617301265488,
+      "model": "XGBoost OvR",
+      "split": "May 2025 full known-class population",
+      "calibrated_with_april_stacker": true,
+      "evaluation_seconds": 27.922657251358032
+    }
+  },
+  "bootstrap": {
+    "unit": "calendar-day block, paired between tree models",
+    "blocks": 31,
+    "replicates": 1000,
+    "neural_ci_computed": false
+  },
+  "neural_reference": {
+    "model": "Neural stacking_A_C",
+    "status": "external point-estimate only",
+    "reason": "Pass 5 has only aggregate neural test metrics/confusion matrix; metric/provenance mismatch with supplied Pass-3 notebook must be resolved before cross-family inferential claims.",
+    "neural_bootstrap_ci_computed": false,
+    "neural_inference_speed_compared": false
+  },
+  "inference_scope": "tree predictions + April-trained LR stacker only; preprocessing/HDF5 excluded; not compared to neural throughput",
+  "reproducibility_status": "tree-family comparison materially controlled; neural cross-family claim still requires same-pipeline retraining and metric/provenance reconciliation",
+  "total_wallclock_seconds": 40931.78482174873,
+  "available_libraries": {
+    "numpy": "2.1.3",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.6.1",
+    "lightgbm": "4.6.0",
+    "xgboost": "3.4.1",
+    "joblib": "1.6.0",
+    "tables": "3.10.2"
+  }
+}

@@ -1,0 +1,4 @@
+# No global pinned environment is declared yet.
+# The five notebooks use different dependency stacks and rely on Kaggle-managed
+# GPU/CUDA packages. See docs/reproducibility.md. Record tested versions per pass
+# before claiming clean-environment reproducibility.

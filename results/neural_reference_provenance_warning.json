@@ -1,0 +1,7 @@
+{
+  "model": "Neural stacking_A_C",
+  "status": "external point-estimate only",
+  "reason": "Pass 5 has only aggregate neural test metrics/confusion matrix; metric/provenance mismatch with supplied Pass-3 notebook must be resolved before cross-family inferential claims.",
+  "neural_bootstrap_ci_computed": false,
+  "neural_inference_speed_compared": false
+}

@@ -1,0 +1,52 @@
+# Reference configuration documenting the reported Pass 5 protocol.
+# This file is documentation-only: current notebooks define their own configuration
+# internally. Do not assume editing this YAML changes notebook behavior.
+
+project:
+  name: quic-traffic-classification
+  notebook_pass: 5
+  notebook_version: "v10.1.2 source"
+  execution_platform: Kaggle
+  accelerator: "2 x NVIDIA T4 GPU (intended platform)"
+
+dataset:
+  name: "CESNET-QUICEXT-25"
+  class_count: 50
+  train_period: "2024-06 through 2025-03"
+  development_period: "2025-04"
+  test_period: "2025-05"
+  test_population_flows: 2359061
+  test_calendar_day_blocks: 31
+
+features:
+  total_dimensions: 101
+  packet_triples: 30
+  packet_fields: ["inter-packet time", "direction", "size"]
+  auxiliary_features: 11
+  warning: "Auxiliary fields may use full-flow statistics; not a strict prefix-only online feature set."
+
+models:
+  - "LightGBM multiclass"
+  - "XGBoost one-vs-rest"
+  probability_calibration_or_stacking: "April development data; see notebook and manifests"
+  dry_run_is_paper_valid: false
+
+uncertainty:
+  method: "paired calendar-day block bootstrap"
+  blocks: 31
+  replicates: 1000
+  scope: "within-May daily-block uncertainty only"
+
+reported_metrics:
+  lightgbm:
+    accuracy: 0.8789060563
+    macro_f1: 0.7533901744
+    weighted_f1: 0.8773937975
+    ece10: 0.0154177002
+    throughput_flows_per_second: 1254.68
+  xgboost_ovr:
+    accuracy: 0.8426848649
+    macro_f1: 0.6965948073
+    weighted_f1: 0.8399677018
+    ece10: 0.0140526173
+    throughput_flows_per_second: 6235.50

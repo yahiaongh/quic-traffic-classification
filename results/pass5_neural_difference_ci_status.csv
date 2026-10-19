@@ -1,0 +1,3 @@
+comparison,status,reason
+LightGBM - Neural reference,NOT_COMPUTED,No neural per-flow/day-block predictions in the available Pass 5 artifacts; aggregate confusion matrix cannot support paired day-block bootstrap.
+XGBoost OvR - Neural reference,NOT_COMPUTED,No neural per-flow/day-block predictions in the available Pass 5 artifacts; aggregate confusion matrix cannot support paired day-block bootstrap.
