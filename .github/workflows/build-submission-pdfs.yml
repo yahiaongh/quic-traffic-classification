@@ -1,12 +1,6 @@
 name: Build venue submission PDFs
 
 on:
-  pull_request:
-    branches:
-      - main
-    paths:
-      - "paper/**"
-      - ".github/workflows/build-submission-pdfs.yml"
   push:
     branches:
       - submission-pdf-build-20261030
@@ -18,7 +12,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: venue-submission-pdf-build
+  group: venue-submission-pdf-build-final
   cancel-in-progress: true
 
 jobs:
