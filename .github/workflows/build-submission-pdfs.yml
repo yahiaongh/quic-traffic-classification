@@ -1,0 +1,70 @@
+name: Build venue submission PDFs
+
+on:
+  push:
+    branches:
+      - submission-pdf-build-20261030
+    paths:
+      - "paper/**"
+      - ".github/workflows/build-submission-pdfs.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out temporary branch
+        uses: actions/checkout@v4
+
+      - name: Install TeX toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y latexmk texlive-latex-extra texlive-publishers texlive-bibtex-extra texlive-fonts-recommended poppler-utils
+
+      - name: Generate venue-specific LaTeX sources
+        run: python3 paper/build_submission_versions.py
+
+      - name: Compile PDFs and BibTeX references
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd pdfs
+          mkdir -p build
+          for target in ifip-networking-2027 acm-imc-2027 ieee-tnsm; do
+            latexmk -pdf -interaction=nonstopmode -file-line-error -halt-on-error -outdir=build "${target}.tex"
+            cp "build/${target}.pdf" "${target}.pdf"
+            if [ -f "build/${target}.bbl" ]; then cp "build/${target}.bbl" "${target}.bbl"; fi
+          done
+
+      - name: Inspect PDF integrity, text extraction, and page counts
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd pdfs
+          : > pdf-validation.txt
+          for f in ifip-networking-2027.pdf acm-imc-2027.pdf ieee-tnsm.pdf; do
+            pdfinfo "$f" | grep -E '^(Pages|Page size|PDF version):' | tee -a pdf-validation.txt
+            pdftotext "$f" "${f%.pdf}.txt"
+            test -s "${f%.pdf}.txt"
+            echo "FILE: $f" >> pdf-validation.txt
+          done
+          cat pdf-validation.txt
+
+      - name: Package PDFs, editable sources, and compliance notes
+        uses: actions/upload-artifact@v4
+        with:
+          name: quic-traffic-classification-submission-pdfs
+          path: |
+            pdfs/ifip-networking-2027.pdf
+            pdfs/acm-imc-2027.pdf
+            pdfs/ieee-tnsm.pdf
+            pdfs/*.tex
+            pdfs/references.bib
+            pdfs/*.bbl
+            pdfs/submission-compliance-notes.md
+            pdfs/pdf-validation.txt
+          if-no-files-found: error
+          retention-days: 14
