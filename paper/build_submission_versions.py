@@ -29,7 +29,9 @@ doc = re.sub(r"\\noindent\\textbf\{Keywords:\}[\s\S]*?(?=\\section\{Introduction
 doc = re.sub(r"\\bibliographystyle\{plain\}[\s\S]*?\\end\{thebibliography\}\s*$", "", doc, count=1)
 doc = doc.strip()
 
-# Convert the fifty-class longtable to a full-width float for two-column classes.
+# Convert the fifty-class longtable to a two-panel full-width table.
+# Two 25-row panels preserve every class row while avoiding unsupported longtable
+# behavior in the IEEE and ACM two-column templates.
 lm = re.search(r"\\begin\{longtable\}\{lrrrr\}([\s\S]*?)\\end\{longtable\}", doc)
 if lm:
     inner = lm.group(1)
@@ -37,13 +39,25 @@ if lm:
     if not cm:
         raise RuntimeError("Could not parse the per-class longtable caption.")
     cap, lab = cm.group(1), cm.group(2)
-    inner = inner[:cm.start()] + inner[cm.end():]
-    inner = re.sub(r"\\endfirsthead\s*|\\endhead\s*", "", inner)
+    rows = re.findall(r"\\\\texttt\{[^}]+\}\s*&[^\n]*?\\\\\\\\", inner)
+    if len(rows) != 50:
+        raise RuntimeError(f"Expected 50 per-class rows; found {len(rows)}.")
+    head = (
+        r"Class & Support & Neural F1$^{*}$ & LightGBM F1 & XGBoost-OvR F1\\"
+    )
+    def panel(panel_rows):
+        return (
+            r"\begin{minipage}[t]{0.49\textwidth}\centering" + "\n" +
+            r"\begin{tabular*}{0.49\textwidth}{@{\extracolsep{\fill}}lrrrr@{}}" + "\n" +
+            r"\toprule" + "\n" + head + "\n" + r"\midrule" + "\n" +
+            "\n".join(panel_rows) + "\n" + r"\bottomrule" + "\n" +
+            r"\end{tabular*}" + "\n" + r"\end{minipage}"
+        )
     replacement = (
         r"\begin{table*}[t]" + "\n" + r"\centering" + "\n" +
         r"\caption{" + cap + "}" + r"\label{" + lab + "}" + "\n" +
-        r"\small" + "\n" + r"\begin{tabular}{lrrrr}" + inner +
-        r"\end{tabular}" + "\n" + r"\end{table*}"
+        r"\small" + "\n" + panel(rows[:25]) + r"\hfill" + "\n" +
+        panel(rows[25:]) + "\n" + r"\end{table*}"
     )
     doc = doc[:lm.start()] + replacement + doc[lm.end():]
 
