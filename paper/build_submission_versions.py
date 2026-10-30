@@ -29,9 +29,9 @@ doc = re.sub(r"\\noindent\\textbf\{Keywords:\}[\s\S]*?(?=\\section\{Introduction
 doc = re.sub(r"\\bibliographystyle\{plain\}[\s\S]*?\\end\{thebibliography\}\s*$", "", doc, count=1)
 doc = doc.strip()
 
-# Convert the fifty-class longtable to a two-panel full-width table.
-# Two 25-row panels preserve every class row while avoiding unsupported longtable
-# behavior in the IEEE and ACM two-column templates.
+# Convert the fifty-class longtable to a single scaled full-width table.
+# Every one of the 50 per-class rows is retained. Scaling avoids the overflow seen
+# when five columns are squeezed into narrow half-width panels in two-column output.
 lm = re.search(r"\\begin\{longtable\}\{lrrrr\}([\s\S]*?)\\end\{longtable\}", doc)
 if lm:
     inner = lm.group(1)
@@ -42,22 +42,15 @@ if lm:
     rows = re.findall(r"\\texttt\{[^}]+\}\s*&[^\n]*?\\\\", inner)
     if len(rows) != 50:
         raise RuntimeError(f"Expected 50 per-class rows; found {len(rows)}.")
-    head = (
-        r"Class & Support & Neural F1$^{*}$ & LightGBM F1 & XGBoost-OvR F1\\"
-    )
-    def panel(panel_rows):
-        return (
-            r"\begin{minipage}[t]{0.49\textwidth}\centering" + "\n" +
-            r"\begin{tabular*}{0.49\textwidth}{@{\extracolsep{\fill}}lrrrr@{}}" + "\n" +
-            r"\toprule" + "\n" + head + "\n" + r"\midrule" + "\n" +
-            "\n".join(panel_rows) + "\n" + r"\bottomrule" + "\n" +
-            r"\end{tabular*}" + "\n" + r"\end{minipage}"
-        )
+    head = r"Class & Support & Neural F1$^{*}$ & LightGBM F1 & XGBoost-OvR F1\\"
     replacement = (
         r"\begin{table*}[t]" + "\n" + r"\centering" + "\n" +
         r"\caption{" + cap + "}" + r"\label{" + lab + "}" + "\n" +
-        r"\small" + "\n" + panel(rows[:25]) + r"\hfill" + "\n" +
-        panel(rows[25:]) + "\n" + r"\end{table*}"
+        r"\resizebox{\textwidth}{!}{%" + "\n" +
+        r"\begin{tabular}{lrrrr}" + "\n" + r"\toprule" + "\n" +
+        head + "\n" + r"\midrule" + "\n" +
+        "\n".join(rows) + "\n" + r"\bottomrule" + "\n" +
+        r"\end{tabular}}" + "\n" + r"\end{table*}"
     )
     doc = doc[:lm.start()] + replacement + doc[lm.end():]
 
