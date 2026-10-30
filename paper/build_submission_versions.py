@@ -46,11 +46,13 @@ if lm:
     replacement = (
         r"\begin{table*}[t]" + "\n" + r"\centering" + "\n" +
         r"\caption{" + cap + "}" + r"\label{" + lab + "}" + "\n" +
-        r"\resizebox{\textwidth}{!}{%" + "\n" +
-        r"\begin{tabular}{lrrrr}" + "\n" + r"\toprule" + "\n" +
-        head + "\n" + r"\midrule" + "\n" +
+        r"{\footnotesize" + "\n" +
+        r"\setlength{\tabcolsep}{2.5pt}" + "\n" +
+        r"\renewcommand{\arraystretch}{0.75}" + "\n" +
+        r"\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr@{}}" + "\n" +
+        r"\toprule" + "\n" + head + "\n" + r"\midrule" + "\n" +
         "\n".join(rows) + "\n" + r"\bottomrule" + "\n" +
-        r"\end{tabular}}" + "\n" + r"\end{table*}"
+        r"\end{tabular*}}" + "\n" + r"\end{table*}"
     )
     doc = doc[:lm.start()] + replacement + doc[lm.end():]
 
