@@ -87,13 +87,13 @@ doc_ifip = re.sub(r"\\section\*\{Data and Code Availability\}[\s\S]*$", blind_av
 doc_tnsm = re.sub(r"\\section\*\{Data and Code Availability\}[\s\S]*$", availability, doc)
 
 bib = r"""@misc{cesnet-quicext25,
-  author = {Jan Luxemburk and Karel Hynek and Jonas M\"ucke},
+  author = {J. Luxemburk and K. Hynek and J. M\"ucke},
   title = {CESNET-QUICEXT-25: A Year-Long QUIC Traffic Dataset with EXTended Attributes},
   year = {2025}, publisher = {Zenodo}, doi = {10.5281/zenodo.17249078},
   url = {https://doi.org/10.5281/zenodo.17249078}
 }
 @article{waitingforquic,
-  author = {Jonas M\"ucke and Michal Nawrocki and Robert Hiesgen and Paul Sattler and Julian Zirngibl and Georg Carle and Jan Luxemburk and Thomas C. Schmidt and Matthias W\"ahlisch},
+  author = {J. M\"ucke and M. Nawrocki and R. Hiesgen and P. Sattler and J. Zirngibl and G. Carle and J. Luxemburk and T. C. Schmidt and M. W\"ahlisch},
   title = {Waiting for QUIC: Passive Measurements to Understand QUIC Deployments},
   journal = {Proceedings of the ACM on Networking}, volume = {3}, number = {CoNEXT4},
   pages = {Article 41}, year = {2025}, doi = {10.1145/3768988}
