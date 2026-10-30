@@ -67,6 +67,23 @@ doc = re.sub(r"\\begin\{figure\}\[ht\][\s\S]*?\\end\{figure\}", widen_figure, do
 doc = doc.replace(r"\begin{table}[ht]", r"\begin{table}[t]")
 doc = doc.replace(r"\begin{figure}[ht]", r"\begin{figure}[t]")
 
+# Scale the two narrow single-column schema tables to the actual column width.
+# This preserves every row and phrase while preventing their long wrapped columns
+# from protruding into the neighboring column or page margin.
+for table_label in ("tab:feature_schema", "tab:split"):
+    label_pos = doc.find(r"\label{" + table_label + "}")
+    if label_pos < 0:
+        raise RuntimeError(f"Missing expected table label: {table_label}")
+    tab_start = doc.find(r"\begin{tabular}", label_pos)
+    tab_end = doc.find(r"\end{tabular}", tab_start)
+    if tab_start < 0 or tab_end < 0:
+        raise RuntimeError(f"Could not locate tabular body for {table_label}")
+    tab_end += len(r"\end{tabular}")
+    doc = (
+        doc[:tab_start] + r"\resizebox{\columnwidth}{!}{%" +
+        doc[tab_start:tab_end] + "}" + doc[tab_end:]
+    )
+
 availability = r"""\section*{Data and Code Availability}
 
 The manuscript source, experimental notebooks, model configurations, result tables, evaluation manifests, audit information, and reproducibility documentation are publicly available at:
