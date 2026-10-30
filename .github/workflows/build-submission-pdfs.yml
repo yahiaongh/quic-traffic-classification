@@ -7,6 +7,12 @@ on:
     paths:
       - "paper/**"
       - ".github/workflows/build-submission-pdfs.yml"
+  push:
+    branches:
+      - submission-pdf-build-20261030
+    paths:
+      - "paper/**"
+      - ".github/workflows/build-submission-pdfs.yml"
 
 permissions:
   contents: read
