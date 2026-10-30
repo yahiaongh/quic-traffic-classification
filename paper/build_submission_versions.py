@@ -39,7 +39,7 @@ if lm:
     if not cm:
         raise RuntimeError("Could not parse the per-class longtable caption.")
     cap, lab = cm.group(1), cm.group(2)
-    rows = re.findall(r"\\\\texttt\{[^}]+\}\s*&[^\n]*?\\\\\\\\", inner)
+    rows = re.findall(r"\\texttt\{[^}]+\}\s*&[^\n]*?\\\\", inner)
     if len(rows) != 50:
         raise RuntimeError(f"Expected 50 per-class rows; found {len(rows)}.")
     head = (
