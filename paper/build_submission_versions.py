@@ -83,8 +83,8 @@ blind_availability = r"""\section*{Data and Code Availability}
 
 The manuscript source, experimental notebooks, model configurations, result tables, evaluation manifests, audit information, and reproducibility documentation are maintained in a public project repository. The direct repository URL is withheld from this double-blind review copy to avoid exposing author identity; it should be restored in the camera-ready version. The CESNET-QUICEXT-25 dataset is distributed separately by its original providers (DOI: \url{https://doi.org/10.5281/zenodo.17249078}) and is not redistributed in the project repository. The current repository snapshot does not contain a restorable checkpoint or per-flow predictions for the external neural reference; its reported results are descriptive only.
 """
-doc_ifip = re.sub(r"\\section\*\{Data and Code Availability\}[\s\S]*$", blind_availability, doc)
-doc_tnsm = re.sub(r"\\section\*\{Data and Code Availability\}[\s\S]*$", availability, doc)
+doc_ifip = re.sub(r"\\section\*\{Data and Code Availability\}[\s\S]*$", lambda _: blind_availability, doc)
+doc_tnsm = re.sub(r"\\section\*\{Data and Code Availability\}[\s\S]*$", lambda _: availability, doc)
 
 bib = r"""@misc{cesnet-quicext25,
   author = {J. Luxemburk and K. Hynek and J. M\"ucke},
