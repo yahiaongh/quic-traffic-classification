@@ -107,13 +107,13 @@ bib = r"""@misc{cesnet-quicext25,
   url = {https://github.com/CESNET/cesnet-models}, year = {2025}
 }
 @article{rezaei2019,
-  author = {Saeed Rezaei and Xiali Liu},
+  author = {S. Rezaei and X. Liu},
   title = {Deep Learning for Encrypted Traffic Classification: An Overview},
   journal = {IEEE Communications Magazine}, volume = {57}, number = {5},
   pages = {76--81}, year = {2019}, doi = {10.1109/MCOM.2019.1800819}
 }
 @article{sharma2025survey,
-  author = {Amit Sharma and Ali H. Lashkari},
+  author = {A. Sharma and A. H. Lashkari},
   title = {A Survey on Encrypted Network Traffic: A Comprehensive Survey of Identification/Classification Techniques, Challenges, and Future Directions},
   journal = {Computer Networks}, volume = {257}, pages = {110984}, year = {2025},
   doi = {10.1016/j.comnet.2024.110984}
@@ -130,29 +130,29 @@ bib = r"""@misc{cesnet-quicext25,
   year = {2023}, doi = {10.3390/app13084725}
 }
 @inproceedings{lightgbm,
-  author = {Guolin Ke and Qi Meng and Thomas Finley and Taifeng Wang and Wei Chen and Weidong Ma and Qiwei Ye and Tie-Yan Liu},
+  author = {G. Ke and Q. Meng and T. Finley and T. Wang and W. Chen and W. Ma and Q. Ye and T.-Y. Liu},
   title = {LightGBM: A Highly Efficient Gradient Boosting Decision Tree},
   booktitle = {Advances in Neural Information Processing Systems}, year = {2017}
 }
 @inproceedings{xgboost,
-  author = {Tianqi Chen and Carlos Guestrin},
+  author = {T. Chen and C. Guestrin},
   title = {XGBoost: A Scalable Tree Boosting System},
   booktitle = {Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
   pages = {785--794}, year = {2016}
 }
 @inproceedings{hu2018senet,
-  author = {Jie Hu and Li Shen and Gang Sun},
+  author = {J. Hu and L. Shen and G. Sun},
   title = {Squeeze-and-Excitation Networks},
   booktitle = {Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
   year = {2018}
 }
 @article{bai2018tcn,
-  author = {Shaojie Bai and J. Zico Kolter and Vladlen Koltun},
+  author = {S. Bai and J. Z. Kolter and V. Koltun},
   title = {An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling},
   journal = {arXiv preprint arXiv:1803.01271}, year = {2018}
 }
 @inproceedings{vaswani2017attention,
-  author = {Ashish Vaswani and Noam Shazeer and Niki Parmar and Jakob Uszkoreit and Llion Jones and A. N. Gomez and Lukasz Kaiser and Illia Polosukhin},
+  author = {A. Vaswani and N. Shazeer and N. Parmar and J. Uszkoreit and L. Jones and A. N. Gomez and L. Kaiser and I. Polosukhin},
   title = {Attention Is All You Need},
   booktitle = {Advances in Neural Information Processing Systems}, year = {2017}
 }
