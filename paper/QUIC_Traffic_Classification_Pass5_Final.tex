@@ -1,46 +1,20 @@
-
-\documentclass[10pt]{article}
-
-\usepackage[a4paper,margin=0.85in]{geometry}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{lmodern}
+\documentclass[sigconf,review,anonymous]{acmart}
 \usepackage{microtype}
-\usepackage{graphicx}
-\usepackage{booktabs}
-\usepackage{longtable}
-\usepackage{amsmath,amssymb}
-\usepackage{hyperref}
-\usepackage{caption}
-\usepackage{multirow}
-\usepackage{array}
-\usepackage{xurl}
+\usepackage{booktabs,multirow,array,xurl}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,calc}
-\usepackage{float}
-
-\hypersetup{
-  colorlinks=true,
-  linkcolor=blue,
-  citecolor=blue,
-  urlcolor=blue,
-  pdftitle={Encrypted QUIC Application Classification Under Temporal Shift},
-  pdfauthor={Yahia Abdeldjalil Benyahia}
-}
-
+\settopmatter{printfolios=true}
+\hypersetup{pdftitle={Encrypted QUIC Application Classification Under Temporal Shift: Full-Population Tree Baselines and a Neural Reference},pdfauthor={}}
 \title{Encrypted QUIC Application Classification Under Temporal Shift: Full-Population Tree Baselines and a Neural Reference}
-\author{Yahia Abdeldjalil Benyahia\\
-\small École nationale Supérieure d'Informatique (ESI), Algiers, Algeria}
-\date{October 2026}
-
+\author{Anonymous Author(s)}
 \begin{document}
-\maketitle
-
 \begin{abstract}
-Reliable application classification from encrypted QUIC traffic is difficult because payload inspection is unavailable and traffic distributions evolve over time. We study a 50-class closed-set task on the medium variant of CESNET-QUICEXT-25 using a chronological split: 27,727,267 known-class flows from June 2024--March 2025 for training, disjoint April 2025 partitions for hyperparameter selection, early stopping, stacking, and calibration audit, and all 2,359,061 known-class flows from May 2025 for final testing. The 101-dimensional representation combines the first 30 packet timing/direction/size triples with 11 auxiliary flow statistics; because some auxiliary features are full-flow statistics, the task is not strict first-30-packet online classification. Pass 5 compares a 50-class LightGBM model and an XGBoost one-vs-rest (OvR) ensemble, each followed by the same April-trained multinomial logistic stacker. On the full May test population, LightGBM achieves 0.8789 accuracy and 0.7534 macro-F1, versus 0.8427 accuracy and 0.6966 macro-F1 for XGBoost-OvR. A paired bootstrap over the 31 test-day blocks estimates a LightGBM macro-F1 advantage of 0.0568 (95\% interval 0.0531--0.0607). XGBoost-OvR is approximately 4.97 times faster in the measured model-only benchmark (6,235 versus 1,255 flows/s), while LightGBM has stronger class-balanced predictive performance. A previously trained neural stacking ensemble, stacking\_A\_C, is documented as an external descriptive reference (reported accuracy 0.9324, macro-F1 0.8386), not as a fully controlled inferential comparator: its checkpoint and per-flow probabilities are absent from the Pass 5 artifact bundle, and the run manifest flags unresolved provenance. The results provide a reproducible comparison between two tree pipelines on one full future-month population, while identifying the limits imposed by a single test month, iteration caps, and the external neural reference.
+Encrypted QUIC application classification is challenging because payload inspection is unavailable and traffic distributions evolve. We evaluate a 50-class closed-set task on the medium CESNET-QUICEXT-25 variant with a chronological protocol: 27,727,267 known-class flows from June 2024 through March 2025 for training, disjoint April 2025 partitions for model selection, early stopping, stacking, and calibration audit, and all 2,359,061 known-class flows from May 2025 for testing. The 101-feature representation combines the first 30 packet timing/direction/size triples with 11 auxiliary flow statistics; because some auxiliary features summarize the full flow, this is not strict first-30-packet online classification. LightGBM with an April-trained logistic stacker achieves 0.8789 accuracy and 0.7534 macro-F1, versus 0.8427 and 0.6966 for XGBoost one-vs-rest. A paired bootstrap over 31 test days estimates a 0.0568 macro-F1 advantage (95\% interval 0.0531--0.0607). XGBoost is approximately 4.97 times faster in the measured model-only benchmark. Neural scores are retained only as an external descriptive reference because their checkpoint and per-flow predictions are unavailable.
 \end{abstract}
+\maketitle
+\keywords{QUIC; encrypted traffic classification; temporal generalization; CESNET-QUICEXT-25; LightGBM; XGBoost; one-vs-rest; probability stacking; calibration; day-block bootstrap}
 
-\noindent\textbf{Keywords:} QUIC; encrypted traffic classification; temporal generalization; CESNET-QUICEXT-25; LightGBM; XGBoost; one-vs-rest; probability stacking; calibration; day-block bootstrap.
+
 
 \section{Introduction}
 \label{sec:intro}
@@ -87,12 +61,12 @@ Each flow is represented by 101 numerical features:
 \end{itemize}
 No payload bytes or SNI feature is used by the evaluated 101-dimensional representation. An important scope distinction is that some auxiliary statistics describe the full flow. The experiment should therefore be understood as flow-level classification with an early-packet sequence component, not as a strict online classifier that makes a decision from the first 30 packets alone.
 
-\begin{table}[ht]
+\begin{table*}[t]
 \centering
 \caption{Input representation used by the tree pipelines and neural reference.}
 \label{tab:feature_schema}
 \small
-\begin{tabular}{p{0.23\linewidth}p{0.20\linewidth}p{0.45\linewidth}}
+\begin{tabular}{p{0.23\textwidth}p{0.20\textwidth}p{0.45\textwidth}}
 \toprule
 Feature group & Shape & Contents / interpretation \\
 \midrule
@@ -102,7 +76,7 @@ Tree input & $101$ & Flattened packet fields plus auxiliary features. \\
 Neural input & Two inputs & Sequence tensor $30\times3$ and a separate 11-dimensional auxiliary vector. \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 \subsection{Chronological data partition}
 
@@ -115,12 +89,12 @@ The partition is chronological, with non-overlapping periods:
 
 The chronological design tests generalization to later traffic rather than randomly interleaving flows from the same time period. The April partitions serve separate development roles; the 100,000-row audit is not used for selection. May remains untouched until both tree models and stackers are frozen. The test results measure performance on one subsequent month; they do not establish robustness to longer-term drift across multiple future months.
 
-\begin{table}[ht]
+\begin{table*}[t]
 \centering
 \caption{Chronological data protocol and partition roles.}
 \label{tab:split}
 \small
-\begin{tabular}{p{0.22\linewidth}p{0.25\linewidth}rp{0.32\linewidth}}
+\begin{tabular}{p{0.22\textwidth}p{0.25\textwidth}rp{0.32\textwidth}}
 \toprule
 Partition & Period & Flows & Permitted use \\
 \midrule
@@ -132,7 +106,7 @@ Calibration audit & Apr. 2025 & 100,000 & Post-selection calibration audit only 
 Final test & May 2025 & 2,359,061 & Single frozen full-population evaluation \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 \section{Preprocessing and Models}
 \label{sec:method}
@@ -156,12 +130,12 @@ The neural reference was trained in a separate experiment and is treated here as
 
 The external neural reference is the \texttt{stacking\_A\_C} ensemble produced by the supplied Pass 3 notebook. Four candidate sequence architectures were defined in that notebook, but the April validation-selection procedure retained only Model A and Model C and selected logistic-regression stacking of their 50-class probability vectors. The architecture description below is reconstructed from the supplied notebook source and recorded hyperparameters; the Pass 5 ZIP does not include the trained neural weights/checkpoint or per-flow neural probabilities.
 
-\begin{table}[ht]
+\begin{table*}[t]
 \centering
 \caption{Neural reference at a glance. These details describe the notebook-defined architecture, not a newly retrained Pass 5 model.}
 \label{tab:neural_overview}
 \small
-\begin{tabular}{p{0.22\linewidth}p{0.31\linewidth}p{0.34\linewidth}}
+\begin{tabular}{p{0.22\textwidth}p{0.31\textwidth}p{0.34\textwidth}}
 \toprule
 Component & Model A: SE-ResNet1D & Model C: lightweight Transformer \\
 \midrule
@@ -174,11 +148,11 @@ Dense classifier head & 256 $\to$ 128 $\to$ softmax(50) & 256 $\to$ 64 $\to$ sof
 Selected activation & GELU & Swish \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
-\begin{figure}[ht]
+\begin{figure*}[t]
 \centering
-\resizebox{0.98\linewidth}{!}{%
+\resizebox{0.98\textwidth}{!}{%
 \begin{tikzpicture}[
   box/.style={draw,rounded corners,align=center,minimum height=8mm,text width=27mm,font=\small},
   arr/.style={-{Latex[length=2mm]},thick},
@@ -193,11 +167,11 @@ Selected activation & GELU & Swish \\
 \end{tikzpicture}}
 \caption{Model A: squeeze-and-excitation residual one-dimensional CNN. The first two blocks are followed by max-pooling; each block contains two convolutions, batch normalization, a residual shortcut, and an SE channel gate.}
 \label{fig:model_a}
-\end{figure}
+\end{figure*}
 
-\begin{figure}[ht]
+\begin{figure*}[t]
 \centering
-\resizebox{0.98\linewidth}{!}{%
+\resizebox{0.98\textwidth}{!}{%
 \begin{tikzpicture}[
   box/.style={draw,rounded corners,align=center,minimum height=8mm,text width=27mm,font=\small},
   arr/.style={-{Latex[length=2mm]},thick},
@@ -213,7 +187,7 @@ Selected activation & GELU & Swish \\
 \end{tikzpicture}}
 \caption{Model C: lightweight Transformer encoder. Each encoder block uses multi-head self-attention and a position-wise feed-forward network, with residual connections, dropout, and layer normalization.}
 \label{fig:model_c}
-\end{figure}
+\end{figure*}
 
 \paragraph{Model A: squeeze-and-excitation residual 1D CNN.}
 The packet input is a $30\times3$ tensor containing inter-packet time, direction, and packet size. Model A applies three residual 1D convolutional blocks with kernel width 3 and channel widths 96, 192, and 384. Each block contains a same-padded convolution, batch normalization, GELU activation, spatial dropout (rate 0.2159), a second same-padded convolution and batch normalization, and a squeeze-and-excitation gate. The gate globally averages each channel, maps the channel descriptor through a ReLU bottleneck of width approximately one eighth of the channel count (minimum width four), and uses a sigmoid projection to rescale the feature maps. A 1D convolutional projection aligns residual dimensions when the channel width changes. Max-pooling by two is applied after the first two blocks. Global average and global max pooling are concatenated to form the packet-sequence representation.
@@ -227,9 +201,9 @@ Both models take the same 11 auxiliary flow-statistics features through a parall
 \paragraph{Stacking procedure and evidential status.}
 On April, the notebook split a 500,000-flow selection sample into stratified halves to compare individual models, uniform/weighted averaging, and logistic-regression stacking. Stacking used concatenated Model A and Model C probability vectors (100 inputs for 50 classes per model), with logistic regression ($C=0.5$, LBFGS, up to 300 iterations). It was selected using the validation holdout and then refit on the complete 500,000-flow selection sample. The supplied notebook's printed May report gives accuracy 0.9324, macro-precision 0.8725, macro-recall 0.8272, macro-F1 0.8386, weighted-F1 0.9320, and 10-bin ECE 0.0096; these rounded values match the external summary. Nevertheless, Pass 5 records a provenance warning, and the uploaded experiment archive lacks the neural checkpoint and per-flow probability/prediction arrays needed to independently recompute those results or perform a paired day-block bootstrap. The neural scores are therefore presented descriptively, without a neural confidence interval or an inferential claim against the tree models. Its separate notebook benchmark is also excluded from the Pass 5 tree-throughput comparison because the benchmark artifacts and inference path are not shared.
 
-\begin{figure}[ht]
+\begin{figure*}[t]
 \centering
-\resizebox{0.96\linewidth}{!}{%
+\resizebox{0.96\textwidth}{!}{%
 \begin{tikzpicture}[
   box/.style={draw,rounded corners,align=center,minimum height=9mm,text width=29mm,font=\small},
   arr/.style={-{Latex[length=2mm]},thick},
@@ -248,9 +222,9 @@ On April, the notebook split a 500,000-flow selection sample into stratified hal
 \end{tikzpicture}}
 \caption{The external \texttt{stacking\_A\_C} prediction path reconstructed from Pass 3. The meta-classifier receives concatenated class-probability vectors; this figure describes the notebook architecture and does not imply that the neural checkpoint or raw predictions were available in Pass 5.}
 \label{fig:neural_stack}
-\end{figure}
+\end{figure*}
 
-\begin{table}[ht]
+\begin{table}[t]
 \centering
 \caption{Selected neural training settings recorded in Pass 3.}
 \label{tab:neural_training}
@@ -283,12 +257,12 @@ XGBoost is implemented as 50 independent binary \texttt{binary:logistic} classif
 
 At inference, the 50 positive-class sigmoid outputs are concatenated and row-normalized to produce a 50-class score vector before the same multinomial logistic stacking procedure used for LightGBM. Row-normalization is a score-coupling heuristic; it does not make the independently trained binary models equivalent to a jointly optimized \texttt{multi:softprob} model. XGBoost-OvR is therefore interpreted as a separate baseline formulation.
 
-\begin{table}[ht]
+\begin{table*}[t]
 \centering
 \caption{Final tree-model configurations and optimization limits.}
 \label{tab:tree_config}
 \small
-\begin{tabular}{p{0.25\linewidth}p{0.29\linewidth}p{0.29\linewidth}}
+\begin{tabular}{p{0.25\textwidth}p{0.29\textwidth}p{0.29\textwidth}}
 \toprule
 Setting & LightGBM & XGBoost-OvR \\
 \midrule
@@ -304,11 +278,11 @@ Early-stopping patience & 35 & 25 \\
 Observed stopping & Best iteration 260 (cap hit) & Most models at/near cap \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
-\begin{figure}[ht]
+\begin{figure*}[t]
 \centering
-\resizebox{0.96\linewidth}{!}{%
+\resizebox{0.96\textwidth}{!}{%
 \begin{tikzpicture}[
   box/.style={draw,rounded corners,align=center,minimum height=9mm,text width=31mm,font=\small},
   arr/.style={-{Latex[length=2mm]},thick},
@@ -323,7 +297,7 @@ Observed stopping & Best iteration 260 (cap hit) & Most models at/near cap \\
 \end{tikzpicture}}
 \caption{Pass 5 evaluation pipeline. April data is partitioned by role; the calibration-audit subset is held out from selection, and the May population is evaluated only after tree models and stackers are frozen.}
 \label{fig:pass5_pipeline}
-\end{figure}
+\end{figure*}
 
 \subsection{Validation and test protocol}
 
@@ -353,7 +327,7 @@ The tree-family confidence intervals use 1,000 bootstrap replicates over the 31 
 
 Table~\ref{tab:overall} reports the complete May 2025 known-class population. The neural result is included only as an external descriptive reference from the Pass 3 notebook; the controlled and inferential comparison in Pass 5 is between the two tree pipelines.
 
-\begin{table*}[ht]
+\begin{table*}[t]
 \centering
 \caption{May 2025 full-population test results ($N=2{,}359{,}061$). Neural results are external point estimates and are not inferentially compared with the tree rows. Tree throughput includes the April-trained logistic stacker but excludes preprocessing and HDF5 I/O.}
 \label{tab:overall}
@@ -377,7 +351,7 @@ The neural reference has higher reported point estimates than either tree model,
 
 Table~\ref{tab:ci} reports the 95\% day-block bootstrap intervals for macro-F1. The interval for LightGBM is 0.7471--0.7606; for XGBoost-OvR it is 0.6911--0.7020. The paired difference interval is 0.0531--0.0607, supporting a positive LightGBM advantage for this test month under the specified block-resampling procedure.
 
-\begin{table}[ht]
+\begin{table}[t]
 \centering
 \caption{Macro-F1 and 95\% paired day-block bootstrap confidence intervals.}
 \label{tab:ci}
@@ -392,7 +366,7 @@ LightGBM $-$ XGBoost-OvR & 0.0568 & 0.0531 & 0.0607\\
 \end{tabular}
 \end{table}
 
-\begin{table}[ht]
+\begin{table}[t]
 \centering
 \caption{Paired LightGBM-minus-XGBoost-OvR differences with 95\% day-block bootstrap intervals (1,000 replicates; 31 May day blocks).}
 \label{tab:diff}
@@ -414,16 +388,16 @@ Weighted-F1 & 0.0374 & 0.0368 & 0.0380\\
 Table~\ref{tab:perclass} shows the per-class F1 scores and support. Neural values are transcribed from the supplied Pass 3 notebook's printed classification report and are descriptive only; tree values come from the Pass 5 per-class comparison artifact. The large spread across classes supports reporting macro-F1 alongside accuracy and weighted-F1. For example, LightGBM has F1 of 0.991 for Discord, 0.966 for DNS-over-HTTPS, and 0.999 for TikTok, while Facebook Messenger has F1 of 0.000 and several low-support classes remain difficult. This heterogeneity is one reason not to interpret the high aggregate accuracy as uniformly strong performance across all 50 applications.
 
 \small
-\begin{longtable}{lrrrr}
-\caption{Per-class May 2025 F1. Neural F1 is an external descriptive reference; support is the shared number of true test flows. Values rounded to three decimals.}\label{tab:perclass}\\
+\begin{table*}[t]
+\centering
+\caption{Per-class May 2025 F1. Neural F1 is an external descriptive reference; support is the shared number of true test flows. Values rounded to three decimals.}\label{tab:perclass}
+{\footnotesize
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{0.75}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr@{}}
 \toprule
 Class & Support & Neural F1$^{*}$ & LightGBM F1 & XGBoost-OvR F1\\
 \midrule
-\endfirsthead
-\toprule
-Class & Support & Neural F1$^{*}$ & LightGBM F1 & XGBoost-OvR F1\\
-\midrule
-\endhead
 \texttt{apple-privaterelay} & 87,993 & 1.000 & 1.000 & 1.000 \\
 \texttt{chrome-remotedesktop} & 256 & 0.909 & 0.881 & 0.815 \\
 \texttt{cloudflare-cdnjs} & 658 & 0.762 & 0.839 & 0.785 \\
@@ -475,7 +449,8 @@ Class & Support & Neural F1$^{*}$ & LightGBM F1 & XGBoost-OvR F1\\
 \texttt{whatsapp} & 7,138 & 0.804 & 0.721 & 0.702 \\
 \texttt{youtube} & 311,296 & 0.915 & 0.838 & 0.796 \\
 \bottomrule
-\end{longtable}
+\end{tabular*}}
+\end{table*}
 \normalsize
 \noindent $^{*}$External neural per-class scores are reported for descriptive context only; their provenance has not been independently reproduced from saved predictions in the Pass 5 artifact bundle.
 
@@ -483,7 +458,7 @@ Class & Support & Neural F1$^{*}$ & LightGBM F1 & XGBoost-OvR F1\\
 
 The final May ECE is 0.0154 for LightGBM and 0.0141 for XGBoost-OvR. On the disjoint 100,000-row April calibration audit, the shared logistic stacker reduced ECE from 0.0402 to 0.0161 for LightGBM and from 0.1006 to 0.0173 for XGBoost-OvR. The audit was not used to select either model or stacker. On that audit, stacking increased accuracy from 0.8833 to 0.8861 for LightGBM and from 0.8397 to 0.8491 for XGBoost-OvR, while macro-F1 decreased slightly (0.7671 to 0.7594 and 0.7031 to 0.7007, respectively). This illustrates that calibration/stacking can improve confidence quality and accuracy without necessarily improving macro-F1.
 
-\begin{table}[ht]
+\begin{table}[t]
 \centering
 \caption{April calibration audit before and after logistic stacking ($N=100{,}000$).}
 \label{tab:calibration_audit}
@@ -548,83 +523,20 @@ The previously trained stacking\_A\_C neural ensemble is described in detail as 
 
 \section*{Data and Code Availability}
 
-All paper-related materials, including the source code, experimental notebooks, model configurations, trained model artifacts, evaluation results, and supporting materials, are publicly available in the project's GitHub repository:
+The manuscript source, experimental notebooks, model configurations, result tables, evaluation manifests, artifact audit, and reproducibility documentation are maintained in a public project repository. The repository URL is withheld from this double-blind review copy and should be restored in the camera-ready version. The project repository does not redistribute the CESNET-QUICEXT-25 dataset, which is distributed separately by its original providers (DOI: \url{https://doi.org/10.5281/zenodo.17249078}) under their access and use conditions. The current artifact bundle does not contain a restorable checkpoint or per-flow predictions for the external neural reference; its scores are descriptive only.
 
-\url{https://github.com/yahiaongh/quic-traffic-classification}
 
-The repository provides the implementation and experimental resources supporting the results reported in this paper, facilitating inspection, reproducibility, and further research. The CESNET-QUICEXT-25 dataset is distributed separately by its original authors through the channels cited in References [1--3]. Access to the dataset is therefore subject to the dataset's original distribution terms and conditions.
-\bibliographystyle{plain}
-\begin{thebibliography}{99}
+\appendix
+\section{Ethics}
+This work is a secondary analysis of the pre-existing CESNET-QUICEXT-25 network-flow dataset. The study did not recruit participants, intervene in network use, or collect new traffic. Dataset access and use remain governed by the original providers' terms. The manuscript and repository materials available for this submission do not document a separate institutional ethics review, approval number, or waiver for this analysis. The authors must confirm the applicable institutional determination and insert the exact approval, exemption, or waiver statement before submission; no approval is asserted here.
 
-\bibitem{cesnet-quicext25}
-J.~Luxemburk, K.~Hynek, and J.~M\"ucke.
-\newblock \emph{CESNET-QUICEXT-25: A Year-Long QUIC Traffic Dataset with EXTended Attributes}.
-\newblock Zenodo, 2025. DOI: \href{https://doi.org/10.5281/zenodo.17249078}{10.5281/zenodo.17249078}.
+\section{Open Science}
+The project repository contains the manuscript source, experiment notebooks, model configurations, reported results, evaluation manifests, artifact audit, and reproducibility documentation. Its URL is withheld in this anonymous review copy and should be restored in the camera-ready version. The repository does not redistribute CESNET-QUICEXT-25. The current artifact bundle also lacks a restorable checkpoint and per-flow predictions for the external neural reference, so those neural scores remain descriptive rather than independently reproducible Pass 5 comparisons.
 
-\bibitem{waitingforquic}
-J.~M\"ucke, M.~Nawrocki, R.~Hiesgen, P.~Sattler, J.~Zirngibl, G.~Carle, J.~Luxemburk, T.~C.~Schmidt, and M.~W\"ahlisch.
-\newblock Waiting for QUIC: Passive Measurements to Understand QUIC Deployments.
-\newblock \emph{Proceedings of the ACM on Networking}, 3(CoNEXT4), Article 41, 2025.
-\newblock DOI: \href{https://doi.org/10.1145/3768988}{10.1145/3768988}.
+\section{Generative AI}
+ChatGPT (OpenAI) was used to assist with language editing, the revised abstract, and venue-specific LaTeX formatting of this submission version. It was not used to collect or process network traffic, train models, execute experiments, calculate metrics, or determine scientific conclusions. The author is responsible for verifying the manuscript, references, disclosures, and rendered submission.
 
-\bibitem{cesnet-datazoo}
-CESNET.
-\newblock \emph{cesnet-datazoo: A Python Library for CESNET Traffic Datasets}.
-\newblock \url{https://github.com/CESNET/cesnet-datazoo}.
 
-\bibitem{cesnet-models}
-CESNET.
-\newblock \emph{cesnet-models: Reference Transforms and Models for CESNET Traffic Datasets}.
-\newblock \url{https://github.com/CESNET/cesnet-models}.
-
-\bibitem{rezaei2019}
-S.~Rezaei and X.~Liu.
-\newblock Deep Learning for Encrypted Traffic Classification: An Overview.
-\newblock \emph{IEEE Communications Magazine}, 57(5):76--81, 2019.
-\newblock DOI: \href{https://doi.org/10.1109/MCOM.2019.1800819}{10.1109/MCOM.2019.1800819}.
-
-\bibitem{sharma2025survey}
-A.~Sharma and A.~H.~Lashkari.
-\newblock A Survey on Encrypted Network Traffic: A Comprehensive Survey of Identification/Classification Techniques, Challenges, and Future Directions.
-\newblock \emph{Computer Networks}, 257, Article 110984, 2025.
-\newblock DOI: \href{https://doi.org/10.1016/j.comnet.2024.110984}{10.1016/j.comnet.2024.110984}.
-
-\bibitem{visquic2024}
-B.~Gahtan, R.~J.~Shahla, A.~M.~Bronstein, and R.~Cohen.
-\newblock Exploring QUIC Dynamics: A Large-Scale Dataset for Encrypted Traffic Analysis.
-\newblock arXiv:2410.03728, 2024.
-
-\bibitem{quicensemble2023}
-S.~Almuhammadi, A.~Alnajim, and M.~Ayub.
-\newblock QUIC Network Traffic Classification Using Ensemble Machine Learning Techniques.
-\newblock \emph{Applied Sciences}, 13(8), Article 4725, 2023.
-\newblock DOI: \href{https://doi.org/10.3390/app13084725}{10.3390/app13084725}.
-
-\bibitem{lightgbm}
-G.~Ke, Q.~Meng, T.~Finley, T.~Wang, W.~Chen, W.~Ma, Q.~Ye, and T.-Y.~Liu.
-\newblock LightGBM: A Highly Efficient Gradient Boosting Decision Tree.
-\newblock In \emph{Advances in Neural Information Processing Systems (NeurIPS)}, 2017.
-
-\bibitem{xgboost}
-T.~Chen and C.~Guestrin.
-\newblock XGBoost: A Scalable Tree Boosting System.
-\newblock In \emph{Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}, 2016, pp.~785--794.
-
-\bibitem{hu2018senet}
-J.~Hu, L.~Shen, and G.~Sun.
-\newblock Squeeze-and-Excitation Networks.
-\newblock In \emph{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}, 2018.
-
-\bibitem{bai2018tcn}
-S.~Bai, J.~Z.~Kolter, and V.~Koltun.
-\newblock An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling.
-\newblock \emph{arXiv preprint arXiv:1803.01271}, 2018.
-
-\bibitem{vaswani2017attention}
-A.~Vaswani, N.~Shazeer, N.~Parmar, J.~Uszkoreit, L.~Jones, A.~N.~Gomez, {\L}.~Kaiser, and I.~Polosukhin.
-\newblock Attention Is All You Need.
-\newblock In \emph{Advances in Neural Information Processing Systems (NeurIPS)}, 2017.
-
-\end{thebibliography}
-
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
 \end{document}
