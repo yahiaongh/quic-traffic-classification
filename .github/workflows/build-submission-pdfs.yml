@@ -1,6 +1,9 @@
 name: Build venue submission PDFs
 
 on:
+  pull_request:
+    branches:
+      - main
   push:
     branches:
       - submission-pdf-build-20261030
