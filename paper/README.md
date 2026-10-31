@@ -6,13 +6,12 @@ To compile locally, run \`latexmk -pdf QUIC_Traffic_Classification_Pass5_Final.t
 
 The code repository license does not override any third-party dataset or asset terms.
 
-## ACM IMC 2027
+## IEEE Transactions on Network and Service Management
 
-- Uses the ACM \`sigconf\` review/anonymous class.
-- Includes the required Ethics, Open Science, and Generative AI appendices.
-- The public repository URL is withheld for double-blind review; restore it in the camera-ready version.
-- The supplied artifacts do not record a separate institutional ethics review, approval number, or waiver. Confirm the applicable institutional determination and complete that statement before submission.
-- IMC's technical-content page ceiling is 13 pages; references and required appendices are outside that ceiling.
+- Uses the IEEE Transactions journal class and retains the author name and affiliation.
+- The abstract is 157 words, within the journal's 75--200 word range.
+- An ORCID was not present in the supplied manuscript/repository materials. Add the author's ORCID in the submission system if required by the journal's current instructions.
+- The manuscript includes a brief disclosure of AI assistance with language editing and LaTeX formatting.
 
 This directory contains the current Pass 5 manuscript source (`.tex`), its compiled PDF, and the accompanying artifact audit.
 

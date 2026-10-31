@@ -1,18 +1,29 @@
-\documentclass[sigconf,review,anonymous]{acmart}
+\documentclass[journal]{IEEEtran}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
 \usepackage{microtype}
-\usepackage{booktabs,multirow,array,xurl}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{xurl}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,calc}
-\settopmatter{printfolios=true}
-\hypersetup{pdftitle={Encrypted QUIC Application Classification Under Temporal Shift: Full-Population Tree Baselines and a Neural Reference},pdfauthor={}}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{pdftitle={Encrypted QUIC Application Classification Under Temporal Shift: Full-Population Tree Baselines and a Neural Reference},pdfauthor={Yahia Abdeldjalil Benyahia}}
 \title{Encrypted QUIC Application Classification Under Temporal Shift: Full-Population Tree Baselines and a Neural Reference}
-\author{Anonymous Author(s)}
+\author{Yahia Abdeldjalil Benyahia%
+\thanks{Yahia Abdeldjalil Benyahia is with \'Ecole nationale Sup\'erieure d'Informatique (ESI), Algiers, Algeria.}}
 \begin{document}
+\maketitle
 \begin{abstract}
 Encrypted QUIC application classification is challenging because payload inspection is unavailable and traffic distributions evolve. We evaluate a 50-class closed-set task on the medium CESNET-QUICEXT-25 variant with a chronological protocol: 27,727,267 known-class flows from June 2024 through March 2025 for training, disjoint April 2025 partitions for model selection, early stopping, stacking, and calibration audit, and all 2,359,061 known-class flows from May 2025 for testing. The 101-feature representation combines the first 30 packet timing/direction/size triples with 11 auxiliary flow statistics; because some auxiliary features summarize the full flow, this is not strict first-30-packet online classification. LightGBM with an April-trained logistic stacker achieves 0.8789 accuracy and 0.7534 macro-F1, versus 0.8427 and 0.6966 for XGBoost one-vs-rest. A paired bootstrap over 31 test days estimates a 0.0568 macro-F1 advantage (95\% interval 0.0531--0.0607). XGBoost is approximately 4.97 times faster in the measured model-only benchmark. Neural scores are retained only as an external descriptive reference because their checkpoint and per-flow predictions are unavailable.
 \end{abstract}
-\maketitle
-\keywords{QUIC; encrypted traffic classification; temporal generalization; CESNET-QUICEXT-25; LightGBM; XGBoost; one-vs-rest; probability stacking; calibration; day-block bootstrap}
+\begin{IEEEkeywords}
+QUIC; encrypted traffic classification; temporal generalization; CESNET-QUICEXT-25; LightGBM; XGBoost; one-vs-rest; probability stacking; calibration; day-block bootstrap
+\end{IEEEkeywords}
 
 
 
@@ -523,20 +534,11 @@ The previously trained stacking\_A\_C neural ensemble is described in detail as 
 
 \section*{Data and Code Availability}
 
-The manuscript source, experimental notebooks, model configurations, result tables, evaluation manifests, artifact audit, and reproducibility documentation are maintained in a public project repository. The repository URL is withheld from this double-blind review copy and should be restored in the camera-ready version. The project repository does not redistribute the CESNET-QUICEXT-25 dataset, which is distributed separately by its original providers (DOI: \url{https://doi.org/10.5281/zenodo.17249078}) under their access and use conditions. The current artifact bundle does not contain a restorable checkpoint or per-flow predictions for the external neural reference; its scores are descriptive only.
+The manuscript source, experimental notebooks, model configurations, result tables, evaluation manifests, artifact audit, and reproducibility documentation are publicly available at \url{https://github.com/yahiaongh/quic-traffic-classification}. The repository does not redistribute the CESNET-QUICEXT-25 dataset, which is distributed separately by its original providers (DOI: \url{https://doi.org/10.5281/zenodo.17249078}) under their access and use conditions. The current artifact bundle does not contain a restorable checkpoint or per-flow predictions for the external neural reference; its scores are therefore descriptive only.
 
+\section*{Acknowledgment}
+ChatGPT (OpenAI) assisted with language editing and venue-specific LaTeX formatting of this submission version. It was not used to collect or process network traffic, train models, execute experiments, calculate metrics, or determine the scientific conclusions. The author is responsible for reviewing and approving the complete manuscript.
 
-\appendix
-\section{Ethics}
-This work is a secondary analysis of the pre-existing CESNET-QUICEXT-25 network-flow dataset. The study did not recruit participants, intervene in network use, or collect new traffic. Dataset access and use remain governed by the original providers' terms. The manuscript and repository materials available for this submission do not document a separate institutional ethics review, approval number, or waiver for this analysis. The authors must confirm the applicable institutional determination and insert the exact approval, exemption, or waiver statement before submission; no approval is asserted here.
-
-\section{Open Science}
-The project repository contains the manuscript source, experiment notebooks, model configurations, reported results, evaluation manifests, artifact audit, and reproducibility documentation. Its URL is withheld in this anonymous review copy and should be restored in the camera-ready version. The repository does not redistribute CESNET-QUICEXT-25. The current artifact bundle also lacks a restorable checkpoint and per-flow predictions for the external neural reference, so those neural scores remain descriptive rather than independently reproducible Pass 5 comparisons.
-
-\section{Generative AI}
-ChatGPT (OpenAI) was used to assist with language editing, the revised abstract, and venue-specific LaTeX formatting of this submission version. It was not used to collect or process network traffic, train models, execute experiments, calculate metrics, or determine scientific conclusions. The author is responsible for verifying the manuscript, references, disclosures, and rendered submission.
-
-
-\bibliographystyle{ACM-Reference-Format}
+\bibliographystyle{IEEEtran}
 \bibliography{references}
 \end{document}
